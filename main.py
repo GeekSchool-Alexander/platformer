@@ -1,31 +1,57 @@
-import pygame
+import pygame as pg
 
 from settings import *
 
 
-pygame.init()
-screen = pygame.display.set_mode(WINDOW_SIZE)
-
-pygame.display.set_caption("GeekSchool Platformer")
-clock = pygame.time.Clock()
-
-all_sprites = pygame.sprite.Group()
-
-running = True
-while running:
-	clock.tick(FPS)
+class Game:
+	def __init__(self):
+		pg.init()
+		self.screen = pg.display.set_mode(WINDOW_SIZE)
+		pg.display.set_caption("GeekSchool Platformer")
+		self.clock = pg.time.Clock()
+		self.running = True
 	
-	for event in pygame.event.get():
-		if event.type == pygame.QUIT:
-			running = False
-		elif event.type == pygame.KEYDOWN:
-			if event.key == pygame.K_ESCAPE:
-				running = False
+	def new(self):
+		self.all_sprites = pg.sprite.Group()
+		self.run()
 	
-	all_sprites.update()
+	def run(self):
+		self.playing = True
+		while self.playing:
+			self.clock.tick(FPS)
+			self.events()
+			self.update()
+			self.draw()
 	
-	screen.fill(BLACK)
-	all_sprites.draw(screen)
-	pygame.display.flip()
+	def events(self):
+		for event in pg.event.get():
+			if event.type == pg.QUIT:
+				self.running = False
+				self.playing = False
+			elif event.type == pg.KEYDOWN:
+				if event.key == pg.K_ESCAPE:
+					self.running = False
+					self.playing = False
+	
+	def update(self):
+		self.all_sprites.update()
+	
+	def draw(self):
+		self.screen.fill(BLACK)
+		self.all_sprites.draw(self.screen)
+		pg.display.flip()
+	
+	def show_start_screen(self):
+		pass
+	
+	def show_go_screen(self):
+		pass
 
-pygame.quit()
+
+g = Game()
+g.show_start_screen()
+while g.running:
+	g.new()
+	g.show_go_screen()
+
+pg.quit()
