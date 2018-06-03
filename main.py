@@ -11,6 +11,11 @@ class Game:
 	
 	def new(self):
 		self.all_sprites = pg.sprite.Group()
+		self.platforms = pg.sprite.Group()
+		for platform_setting in PLATFORM_LIST:
+			p = Platform(*platform_setting)
+			self.platforms.add(p)
+			self.all_sprites.add(p)
 		self.player = Player()
 		self.all_sprites.add(self.player)
 		self.run()
