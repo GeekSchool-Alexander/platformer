@@ -1,11 +1,7 @@
 import pygame
 
-BLACK = (0, 0, 0)
+from settings import *
 
-WIDTH = 800
-HEIGHT = 600
-WINDOW_SIZE = (WIDTH, HEIGHT)
-FPS = 60
 
 pygame.init()
 screen = pygame.display.set_mode(WINDOW_SIZE)
