@@ -7,8 +7,7 @@ from settings import *
 class Player(pg.sprite.Sprite):
 	def __init__(self, game):
 		pg.sprite.Sprite.__init__(self)
-		self.image = pg.Surface(PLAYER_SIZE)
-		self.image.fill(RED)
+		self.image = pg.image.load("./images/ball.png")
 		self.rect = self.image.get_rect()
 		self.rect.center = (WIDTH / 2, HEIGHT / 2)
 		self.pos = Vec2d(WIDTH / 2, HEIGHT / 2)
@@ -32,13 +31,29 @@ class Player(pg.sprite.Sprite):
 		self.vel += self.acc
 		self.pos += self.vel + self.acc / 2
 		
-		self.rect.midbottom = self.pos
-		
-		if self.rect.right > WIDTH:
+		if self.right > WIDTH:
 			self.pos.x = WIDTH - PLAYER_WIDTH / 2
-		if self.rect.left < 0:
+		if self.left < 0:
 			self.pos.x = 0 + PLAYER_WIDTH / 2
-
+		
+		self.rect.midbottom = self.pos
+	
+	@property
+	def top(self):
+		return self.pos.y - PLAYER_HEIGHT / 2
+	
+	@property
+	def bottom(self):
+		return self.pos.y - PLAYER_HEIGHT / 2
+	
+	@property
+	def left(self):
+		return self.pos.x - PLAYER_WIDTH / 2
+	
+	@property
+	def right(self):
+		return self.pos.x + PLAYER_WIDTH / 2
+	
 	def jump(self):
 		self.rect.x += 1
 		hits = pg.sprite.spritecollide(self, self.game.platforms, False)

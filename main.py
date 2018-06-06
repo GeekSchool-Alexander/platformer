@@ -1,6 +1,5 @@
 from sprites import *
 
-
 class Game:
 	def __init__(self):
 		pg.init()
@@ -41,10 +40,11 @@ class Game:
 	
 	def update(self):
 		self.all_sprites.update()
-		hits = pg.sprite.spritecollide(self.player, self.platforms, False)
-		if hits:
-			self.player.pos.y = hits[0].rect.top
-			self.player.vel.y = 0
+		if self.player.vel.y > 0:
+			hits = pg.sprite.spritecollide(self.player, self.platforms, False)
+			if hits:
+				self.player.pos.y = hits[0].rect.top
+				self.player.vel.y = 0
 		
 	def draw(self):
 		self.screen.fill(BLACK)
