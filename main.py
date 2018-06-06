@@ -16,7 +16,7 @@ class Game:
 			p = Platform(*platform_setting)
 			self.platforms.add(p)
 			self.all_sprites.add(p)
-		self.player = Player()
+		self.player = Player(self)
 		self.all_sprites.add(self.player)
 		self.run()
 	
@@ -37,6 +37,7 @@ class Game:
 				if event.key == pg.K_ESCAPE:
 					self.running = False
 					self.playing = False
+				
 	
 	def update(self):
 		self.all_sprites.update()

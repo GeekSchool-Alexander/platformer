@@ -5,7 +5,7 @@ from settings import *
 
 
 class Player(pg.sprite.Sprite):
-	def __init__(self):
+	def __init__(self, game):
 		pg.sprite.Sprite.__init__(self)
 		self.image = pg.Surface(PLAYER_SIZE)
 		self.image.fill(RED)
@@ -14,16 +14,19 @@ class Player(pg.sprite.Sprite):
 		self.pos = Vec2d(WIDTH / 2, HEIGHT / 2)
 		self.vel = Vec2d(0.0, 0.0)
 		self.acc = Vec2d(0.0, 0.0)
+		self.game = game
 	
 	def update(self):
 		self.acc.x = 0
-		self.acc.y = 0.5
+		self.acc.y = PLAYER_GRAVITY
 		
 		keys = pg.key.get_pressed()
 		if keys[pg.K_LEFT]:
 			self.acc.x = -PLAYER_ACC
 		if keys[pg.K_RIGHT]:
 			self.acc.x = PLAYER_ACC
+		if keys[pg.K_UP]:
+			self.jump()
 		
 		self.acc.x += self.vel.x * PLAYER_FRICTION
 		self.vel += self.acc
@@ -36,6 +39,12 @@ class Player(pg.sprite.Sprite):
 		if self.rect.left < 0:
 			self.pos.x = 0 + PLAYER_WIDTH / 2
 
+	def jump(self):
+		self.rect.x += 1
+		hits = pg.sprite.spritecollide(self, self.game.platforms, False)
+		self.rect.x -= 1
+		if hits:
+			self.vel.y = -5
 
 class Platform(pg.sprite.Sprite):
 	def __init__(self, x, y, w, h):
