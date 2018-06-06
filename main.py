@@ -1,4 +1,6 @@
+from levels import level1
 from sprites import *
+
 
 class Game:
 	def __init__(self):
@@ -11,8 +13,9 @@ class Game:
 	def new(self):
 		self.all_sprites = pg.sprite.Group()
 		self.platforms = pg.sprite.Group()
-		for platform_setting in PLATFORM_LIST:
-			p = Platform(*platform_setting)
+		config = self.create_level(level1)
+		for plt in config:
+			p = Platform(*plt)
 			self.platforms.add(p)
 			self.all_sprites.add(p)
 		self.player = Player(self)
@@ -45,7 +48,7 @@ class Game:
 			if hits:
 				self.player.pos.y = hits[0].rect.top
 				self.player.vel.y = 0
-		
+	
 	def draw(self):
 		self.screen.fill(BLACK)
 		self.all_sprites.draw(self.screen)
@@ -56,7 +59,18 @@ class Game:
 	
 	def show_go_screen(self):
 		pass
-
+	
+	def create_level(self, lvl):
+		x = y = 0
+		config = []
+		for row in lvl:  # вся строка
+			for col in row:  # каждый символ
+				if col == "-":
+					config.append((x, y))
+				x += PLATFORM_WIDTH  # блоки платформы ставятся на ширине блоков
+			y += PLATFORM_HEIGHT  # то же самое и с высотой
+			x = 0
+		return tuple(config)
 
 g = Game()
 g.show_start_screen()
