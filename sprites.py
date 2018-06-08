@@ -11,8 +11,8 @@ class Player(pg.sprite.Sprite):
 		self.rect = self.image.get_rect()
 		self.rect.center = (WIDTH / 2, HEIGHT / 2)
 		self.pos = Vec2d(WIDTH / 2, HEIGHT / 2)
-		self.vel = Vec2d(0.0, 0.0)
-		self.acc = Vec2d(0.0, 0.0)
+		self.vel = Vec2d(0, 0)
+		self.acc = Vec2d(0, 0)
 		self.game = game
 	
 	def update(self):
@@ -35,31 +35,40 @@ class Player(pg.sprite.Sprite):
 			self.pos.x = WIDTH - PLAYER_WIDTH / 2
 		if self.left < 0:
 			self.pos.x = 0 + PLAYER_WIDTH / 2
-		
+			
 		self.rect.midbottom = self.pos
 	
 	@property
 	def top(self):
-		return self.pos.y - PLAYER_HEIGHT / 2
+		return self.rect.top
 	
 	@property
 	def bottom(self):
-		return self.pos.y - PLAYER_HEIGHT / 2
+		return self.rect.bottom
 	
 	@property
 	def left(self):
-		return self.pos.x - PLAYER_WIDTH / 2
+		return self.rect.left
 	
 	@property
 	def right(self):
-		return self.pos.x + PLAYER_WIDTH / 2
+		return self.rect.right
+	
+	@property
+	def center_x(self):
+		return self.rect.center[0]
+	
+	@property
+	def center_y(self):
+		return self.rect.center[1]
 	
 	def jump(self):
 		self.rect.x += 1
 		hits = pg.sprite.spritecollide(self, self.game.platforms, False)
 		self.rect.x -= 1
-		if hits:
+		if hits and self.vel.y == 0:
 			self.vel.y = -5
+		
 
 class Platform(pg.sprite.Sprite):
 	def __init__(self, x, y):
@@ -68,3 +77,27 @@ class Platform(pg.sprite.Sprite):
 		self.rect = self.image.get_rect()
 		self.rect.x = x
 		self.rect.y = y
+	
+	@property
+	def top(self):
+		return self.rect.top
+	
+	@property
+	def bottom(self):
+		return self.rect.bottom
+	
+	@property
+	def left(self):
+		return self.rect.left
+	
+	@property
+	def right(self):
+		return self.rect.right
+	
+	@property
+	def center_x(self):
+		return self.rect.center[0]
+	
+	@property
+	def center_y(self):
+		return self.rect.center[1]

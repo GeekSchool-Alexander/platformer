@@ -42,12 +42,16 @@ class Game:
 				
 	
 	def update(self):
-		self.all_sprites.update()
-		if self.player.vel.y > 0:
-			hits = pg.sprite.spritecollide(self.player, self.platforms, False)
-			if hits:
-				self.player.pos.y = hits[0].rect.top
+		hits = pg.sprite.spritecollide(self.player, self.platforms, False)
+		if hits:
+			platform = hits[0]
+			if self.player.vel.y > 0:
+				self.player.pos.y = platform.rect.top
 				self.player.vel.y = 0
+			if self.player.vel.y < 0:
+				self.player.pos.y = platform.rect.bottom + PLAYER_HEIGHT
+				self.player.vel.y = -self.player.vel.y
+		self.all_sprites.update()
 	
 	def draw(self):
 		self.screen.fill(BLACK)
@@ -71,6 +75,7 @@ class Game:
 			y += PLATFORM_HEIGHT  # то же самое и с высотой
 			x = 0
 		return tuple(config)
+
 
 g = Game()
 g.show_start_screen()
