@@ -1,6 +1,7 @@
 import pygame as pg
 
-from VectorClass import Vec2d
+from VectorClass import Vec2d as vec
+from lines import Line
 from settings import *
 
 
@@ -10,9 +11,9 @@ class Player(pg.sprite.Sprite):
 		self.image = pg.image.load("./images/ball.png")
 		self.rect = self.image.get_rect()
 		self.rect.center = (WIDTH / 2, HEIGHT / 2)
-		self.pos = Vec2d(WIDTH / 2, HEIGHT / 2)
-		self.vel = Vec2d(0, 0)
-		self.acc = Vec2d(0, 0)
+		self.pos = vec(WIDTH / 2, HEIGHT / 2)
+		self.vel = vec(0, 0)
+		self.acc = vec(0, 0)
 		self.game = game
 	
 	def update(self):
@@ -62,6 +63,22 @@ class Player(pg.sprite.Sprite):
 	def center_y(self):
 		return self.rect.center[1]
 	
+	@property
+	def side_top(self):
+		return Line(vec(self.left, self.top), vec(self.right, self.top))
+	
+	@property
+	def side_bottom(self):
+		return Line(vec(self.left, self.bottom), vec(self.right, self.bottom))
+	
+	@property
+	def side_left(self):
+		return Line(vec(self.left, self.top), vec(self.left, self.bottom))
+	
+	@property
+	def side_right(self):
+		return Line(vec(self.right, self.top), vec(self.right, self.bottom))
+	
 	def jump(self):
 		self.rect.x += 1
 		hits = pg.sprite.spritecollide(self, self.game.platforms, False)
@@ -77,7 +94,8 @@ class Platform(pg.sprite.Sprite):
 		self.rect = self.image.get_rect()
 		self.rect.x = x
 		self.rect.y = y
-	
+		
+		
 	@property
 	def top(self):
 		return self.rect.top
@@ -101,3 +119,19 @@ class Platform(pg.sprite.Sprite):
 	@property
 	def center_y(self):
 		return self.rect.center[1]
+	
+	@property
+	def side_top(self):
+		return Line(vec(self.left, self.top), vec(self.right, self.top))
+	
+	@property
+	def side_bottom(self):
+		return Line(vec(self.left, self.bottom), vec(self.right, self.bottom))
+	
+	@property
+	def side_left(self):
+		return Line(vec(self.left, self.top), vec(self.left, self.bottom))
+
+	@property
+	def side_right(self):
+		return Line(vec(self.right, self.top), vec(self.right, self.bottom))
