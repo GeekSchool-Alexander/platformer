@@ -42,15 +42,12 @@ class Game:
 				
 	
 	def update(self):
-		hits = pg.sprite.spritecollide(self.player, self.platforms, False)
-		if hits:
-			platform = hits[0]
-			if self.player.vel.y > 0:
-				self.player.pos.y = platform.rect.top
+		ball_move_line = Line(vec(self.player.center_x, self.player.bottom), vec(self.player.center_x, self.player.bottom)+self.player.vel)
+		for plat in self.platforms:
+			if plat.collide_point(ball_move_line):
+				self.player.pos.y = plat.top
 				self.player.vel.y = 0
-			if self.player.vel.y < 0:
-				self.player.pos.y = platform.rect.bottom + PLAYER_HEIGHT
-				self.player.vel.y = -self.player.vel.y
+		
 		self.all_sprites.update()
 	
 	def draw(self):

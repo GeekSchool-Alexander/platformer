@@ -18,8 +18,8 @@ class Line:
 		C = self.p1.x * self.p2.y - self.p2.x * self.p1.y
 		return (A, B, C)
 	
-	def intersection(self, other_line, segment):
-		if isinstance(segment, bool):
+	def intersection(self, other_line, is_segment = True):
+		if isinstance(is_segment, bool):
 			if isinstance(other_line, Line):
 				eq1 = self.equation
 				eq2 = other_line.equation
@@ -31,7 +31,7 @@ class Line:
 				a = np.array([[A1, B1], [A2, B2]])
 				b = np.array([-C1, -C2])
 				i = vec(np.linalg.solve(a, b).tolist())
-				if not segment:
+				if not is_segment:
 					return i
 				else:
 					if (self.p1.y <= i.y <= self.p2.y) and (self.p1.x <= i.x <= self.p2.x) \
