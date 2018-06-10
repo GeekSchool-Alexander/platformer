@@ -14,6 +14,7 @@ class Player(pg.sprite.Sprite):
 		self.vel = Vec2d(0.0, 0.0)
 		self.acc = Vec2d(0.0, 0.0)
 		self.game = game
+		self.on_the_ground = False
 	
 	def update(self):
 		self.acc.x = 0
@@ -62,11 +63,16 @@ class Player(pg.sprite.Sprite):
 	def center_y(self):
 		return self.rect.center[1]
 	
+	@property
+	def height(self):
+		return PLAYER_HEIGHT
+	
+	@property
+	def width(self):
+		return PLAYER_WIDTH
+	
 	def jump(self):
-		self.rect.x += 1
-		hits = pg.sprite.spritecollide(self, self.game.platforms, False)
-		self.rect.x -= 1
-		if hits:
+		if self.on_the_ground:
 			self.vel.y = -5
 
 class Platform(pg.sprite.Sprite):
@@ -100,3 +106,11 @@ class Platform(pg.sprite.Sprite):
 	@property
 	def center_y(self):
 		return self.rect.center[1]
+	
+	@property
+	def height(self):
+		return PLATFORM_HEIGHT
+	
+	@property
+	def width(self):
+		return PLATFORM_WIDTH
