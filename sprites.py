@@ -40,19 +40,27 @@ class Player(pg.sprite.Sprite):
 	
 	@property
 	def top(self):
-		return self.pos.y - PLAYER_HEIGHT / 2
+		return self.rect.top
 	
 	@property
 	def bottom(self):
-		return self.pos.y - PLAYER_HEIGHT / 2
+		return self.rect.bottom
 	
 	@property
 	def left(self):
-		return self.pos.x - PLAYER_WIDTH / 2
+		return self.rect.left
 	
 	@property
 	def right(self):
-		return self.pos.x + PLAYER_WIDTH / 2
+		return self.rect.right
+	
+	@property
+	def center_x(self):
+		return self.rect.center[0]
+	
+	@property
+	def center_y(self):
+		return self.rect.center[1]
 	
 	def jump(self):
 		self.rect.x += 1
@@ -68,3 +76,27 @@ class Platform(pg.sprite.Sprite):
 		self.rect = self.image.get_rect()
 		self.rect.x = x
 		self.rect.y = y
+	
+	@property
+	def top(self):
+		return self.rect.top
+	
+	@property
+	def bottom(self):
+		return self.rect.bottom
+	
+	@property
+	def left(self):
+		return self.rect.left
+	
+	@property
+	def right(self):
+		return self.rect.right
+	
+	@property
+	def center_x(self):
+		return self.rect.center[0]
+	
+	@property
+	def center_y(self):
+		return self.rect.center[1]
